@@ -19,7 +19,7 @@ class CreateArtTable extends Migration
             $table->foreign('type_id')->references('id')->on('types')->onDelete('restrict');
             $table->unsignedBigInteger('artist_id');
             $table->foreign('artist_id')->references('id')->on('artists')->onDelete('restrict');
-            $table->string('art_title');
+            $table->string('title');
             $table->string('image');
             $table->date('date_created');
             $table->timestamps();

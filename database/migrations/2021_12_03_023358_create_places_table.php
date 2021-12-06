@@ -17,11 +17,7 @@ class CreatePlacesTable extends Migration
             $table->id();
             $table->unsignedbiginteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('restrict');
-            $table->unsignedbiginteger('museum_id');
-            $table->foreign('museum_id')->references('id')->on('museums')->onDelete('restrict');
-            $table->unsignedBigInteger('story_id');
-            $table->foreign('story_id')->references('id')->on('stories')->onDelete('restrict');
-            $table->string('place_name');
+            $table->string('name');
             $table->text('desc');
             $table->string('image');
             $table->timestamps();

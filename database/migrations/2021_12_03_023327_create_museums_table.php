@@ -17,7 +17,8 @@ class CreateMuseumsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('art_id');
             $table->foreign('art_id')->references('id')->on('art')->onDelete('restrict');
-            $table->string('place_name');
+            $table->string('name');
+            $table->text('desc');
             $table->string('image');
             $table->timestamps();
         });

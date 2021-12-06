@@ -1,10 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
 use App\Models\Place;
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArtController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PlaceController;
+use App\Http\Controllers\StoryController;
+use App\Http\Controllers\ArtistController;
+use App\Http\Controllers\MuseumController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,19 +27,17 @@ use App\Models\Place;
 //     return view('welcome');
 // });
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/place', function () {
-    return view('place',[
-        'places' => Place::all()
-    ]);
-});
+Route::get('/place', [PlaceController::class, 'show']);
 
-Route::get('/login', function () {
-    return view('login.index');
-});
+Route::get('/museum', [MuseumController::class, 'show']);
+
+Route::get('/art', [ArtController::class, 'show']);
+
+Route::get('/artist', [ArtistController::class, 'show']);
+
+Route::get('/story', [StoryController::class, 'show']);
 
 // Login
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');

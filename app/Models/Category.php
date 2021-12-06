@@ -12,7 +12,7 @@ class Category extends Model
     
     protected $guarded = ['id'];
 
-    public function places()
+    public function place()
     {
         return $this->hasMany(Place::class);
     }

@@ -21,34 +21,16 @@
     <!-- Start Main -->
     <div class="container">
         <div class="row mt-4">
+            <a href="" class=""><span class="badge rounded-pill bg-primary bi bi-plus-circle"> Tambah</span></a>
+            @foreach ($items as $item)
             <div class="col-md-3 mt-3">
                 <div class="image" >
-                    <div class="position-absolute px-3 py-1 text-white" style="background-color: rgba(0,0,0,0);">Denmark</div>
+                    <div class="position-absolute px-3 py-1 text-white" style="background-color: rgba(0,0,0,0);">{{ $item->place->name }}</div>
                     <div class="position-absolute px-3 py-4 text-white" style="background-color: rgba(0,0,0,0);">100 items</div>
-                    <a href=""><img src="{{ asset('img/denmark.jpg') }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
+                    <a href="/place"><img src="img/{{ $item->place->image }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
                 </div>
             </div>
-            <div class="col-md-3 mt-3">
-                <div class="image" >
-                    <div class="position-absolute px-3 py-1 text-white" style="background-color: rgba(0,0,0,0);">Goiânia</div>
-                    <div class="position-absolute px-3 py-4 text-white" style="background-color: rgba(0,0,0,0);">100 items</div>
-                    <a href=""><img src="{{ asset('img/goiânia.jpg') }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
-                </div>
-            </div>
-            <div class="col-md-3 mt-3">
-                <div class="image" >
-                    <div class="position-absolute px-3 py-1 text-white" style="background-color: rgba(0,0,0,0);">Le Havre</div>
-                    <div class="position-absolute px-3 py-4 text-white" style="background-color: rgba(0,0,0,0);">100 items</div>
-                    <a href=""><img src="{{ asset('img/lehavre.jpg') }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
-                </div>
-            </div>
-            <div class="col-md-3 mt-3">
-                <div class="image" >
-                    <div class="position-absolute px-3 py-1 text-white" style="background-color: rgba(0,0,0,0);">Toledo</div>
-                    <div class="position-absolute px-3 py-4 text-white" style="background-color: rgba(0,0,0,0);">100 items</div>
-                    <a href=""><img src="{{ asset('img/toledo.jpg') }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
     <!-- End Main -->   

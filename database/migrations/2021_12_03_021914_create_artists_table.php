@@ -15,10 +15,10 @@ class CreateArtistsTable extends Migration
     {
         Schema::create('artists', function (Blueprint $table) {
             $table->id();
-            $table->string('artist_name');
+            $table->string('name');
             $table->text('desc');
-            $table->date('date_dead');
-            $table->date('birthdate');
+            $table->date('birth_date');
+            $table->date('death_date');
             $table->timestamps();
         });
     }
