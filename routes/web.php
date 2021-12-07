@@ -36,6 +36,8 @@ Route::post('/place/sortbyalpha', [PlaceController::class, 'sortAlpha']);
 
 // Museum
 Route::get('/museum/{id}/{idmuseum}', [MuseumController::class, 'detail']);
+Route::resource('/museum', MuseumController::class)->middleware('auth');
+// Route::get('/museum/create/{id}', [MuseumController::class, 'add'])->middleware('auth');
 
 
 // Story

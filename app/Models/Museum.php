@@ -9,6 +9,8 @@ class Museum extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function category_museums()
     {
         return $this->hasMany(CategoryMuseums::class);

@@ -19,7 +19,7 @@
             @csrf
             <button class="badge rounded-pill bg-info border-0 py-2">Urutkan berdasar <span class="bi bi-clock"></span></button>
         </form>
-        <span class="">||</span>
+        <span class=""> || </span>
         <form method="post" action="/place/sortbyalpha">
             @csrf
             <button class="badge rounded-pill bg-info border-0 py-2">Urutkan abjad <span class="bi bi-sort-alpha-down"></span></button>

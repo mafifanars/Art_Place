@@ -29,7 +29,6 @@
                             @method('delete')
                                 <button type="submit" class="badge rounded-pill bg-danger bi bi-trash border-0"> Hapus</button>
                         </form>
-                        {{-- <a href="/place/create" class="mb-3"><span class="badge rounded-pill bg-danger bi bi-trash"> Hapus</span></a> --}}
                 @endif
             @endif
         <div>
@@ -48,7 +47,7 @@
             <div class="row mt-2">
                 @if (Auth::check())
                     @if (Auth::user()->is_admin == "1")
-                            <a href="" class=""><span class="badge rounded-pill bg-primary bi bi-plus-circle"> Tambah</span></a>
+                            <a href="/museum/create" class=""><span class="badge rounded-pill bg-primary bi bi-plus-circle"> Tambah</span></a>
                     @endif
                 @endif
                 @foreach($museums as $museum)
@@ -56,7 +55,11 @@
                 <div class="col-md-3 mt-3">
                     <div class="image" >
                         <div class="position-absolute px-2 py-1 text-white" style="background-color: rgba(0,0,0,0);">{{ $museum->museum->name }}</div>
-                        <a href="{{ url('/museum/'.$museum->museum_id.'/'.$museum->place_id) }}"><img src="{{ $museum->museum->image }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
+                        @if ($museum->image)
+                            <a href="{{ url('/museum/'.$museum->museum_id.'/'.$museum->place_id) }}"><img src="{{ $museum->museum->image }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $place->name }}"></a>
+                        @else
+                            <a href="{{ url('/museum/'.$museum->museum_id.'/'.$museum->place_id) }}"><img src="https://source.unsplash.com/1200x400?{{ $museum->museum->name }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $museum->museum->name }}"></a>
+                        @endif
                     </div>
                 </div>
                 @endforeach

@@ -9,6 +9,8 @@ class CategoryMuseums extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function museum()
     {
         return $this->belongsTo(Museum::class);

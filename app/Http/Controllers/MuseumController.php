@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Museum;
 use App\Models\Place;
 use App\Models\CategoryMuseums;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class MuseumController extends Controller
@@ -49,7 +52,10 @@ class MuseumController extends Controller
      */
     public function create()
     {
-        return view('create');
+        return view('addmuseum', [
+            'category_museums' => CategoryMuseums::all(),
+            'place' => Place::orderBy('id', 'DESC')->first()
+        ]);
     }
 
     /**
@@ -60,16 +66,38 @@ class MuseumController extends Controller
      */
     public function store(Request $request)
     {
-        $imageName=time().'.'.$request->image->extension();
-        $request->File('image')->storeAs('/public', $imageName);
-        Museum::create([
-            'art_id' => $request->artId,
-            'name' => $request->name,
-            'desc' => $request->desc,
-            'image' => $imageName,
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'desc' => 'required|string',
+            'image' => 'image|file|max:1024'
         ]);
 
-        return redirect('museum-create');
+        if($request->file('image')){
+            $validatedData['image'] = $request->file('image')->store('img');
+        }
+
+        Museum::create($validatedData);
+
+        $idMuseum = Museum::orderBy('id', 'DESC')->first();
+
+        // dd($request->all());
+
+        // $x = DB::table('category_museums')
+        //     ->join('museums', 'museums.id' , '=', 'category_museums.museum_id')
+        //     ->where('museums.id', '=', $idMuseum->id)
+        //     ->select('category_museums.place_id')
+        //     ->get();
+
+        // dd($x);
+
+        
+
+        CategoryMuseums::create([
+            'museum_id' => $idMuseum->id,
+            'place_id' => $request->place_id
+        ]);
+
+        return redirect('/place/'. $request->place_id)->with('success','Museum berhasil ditambah');
     }
 
     /**

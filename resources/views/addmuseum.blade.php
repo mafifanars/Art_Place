@@ -8,14 +8,15 @@
 <div class="container">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Tambah Tempat Baru</h1>
+        <h1 class="h2">Tambah Museum Baru</h1>
     </div>
     
     <div class="col-lg-8 align-items-center">
-        <form method="post" action="/place" class="mb-5" enctype="multipart/form-data">
+        <form method="post" action="/museum" class="mb-5" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
-                <label for="name" class="form-label">Nama Tempat</label>
+                <input type="hidden" name="place_id" id="place_id" value="{{ $place->id }}">
+                <label for="name" class="form-label">Nama Museum</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{ old('name') }}">
                 @error('name')
                     <div class="invalid-feedback">
@@ -41,18 +42,6 @@
                         {{ $message }}
                     </div>
                 @enderror
-            </div>
-            <div class="mb-3">
-                <label for="category" class="form-label">Tipe Tempat</label>
-                <select class="form-select" name="type_places">
-                    @foreach ($type_places as $type)
-                        @if (old('type_place_id') == $type->id)
-                            <option value="{{ $type->id }}" selected>{{ $type->name }}</option>    
-                        @else
-                            <option value="{{ $type->id }}">{{ $type->name }}</option>    
-                    @endif 
-                @endforeach
-                </select>
             </div>
             <button type="submit" class="badge rounded-pill bg-primary bi bi-plus-circle border-0"> Tambah</button>
         </form>
