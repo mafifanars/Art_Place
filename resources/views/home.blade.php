@@ -15,10 +15,15 @@
 
     <!-- Tabs Section -->
     <nav class="d-flex justify-content-center mt-2">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Urutkan Berdasarkan Abjad</button>
-          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Urutkan Berdasarkan Waktu</button>
-        </div>
+        <form method="post" action="/place/sortbytime">
+            @csrf
+            <button class="badge rounded-pill bg-info border-0 py-2">Urutkan berdasar <span class="bi bi-clock"></span></button>
+        </form>
+        <span class="">||</span>
+        <form method="post" action="/place/sortbyalpha">
+            @csrf
+            <button class="badge rounded-pill bg-info border-0 py-2">Urutkan abjad <span class="bi bi-sort-alpha-down"></span></button>
+        </form>
     </nav>
       <!-- tab content -->
 

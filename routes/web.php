@@ -30,12 +30,8 @@ use App\Http\Controllers\RegisterController;
 // Place
 Route::get('/', [PlaceController::class, 'index'])->middleware('auth');
 Route::resource('/place', PlaceController::class)->middleware('auth');
-// Route::get('/place', [PlaceController::class, 'index'])->middleware('auth');
-// Route::get('/place/{id}' , [PlaceController::class, 'show']);
-// Route::get('/place/tambah' , [PlaceController::class, 'create'])->middleware('auth');
-// // Route::post('/place/create', function(){
-//     return view('addplace');
-// });
+Route::post('/place/sortbytime', [PlaceController::class, 'sortTime']);
+Route::post('/place/sortbyalpha', [PlaceController::class, 'sortAlpha']);
 
 
 // Museum

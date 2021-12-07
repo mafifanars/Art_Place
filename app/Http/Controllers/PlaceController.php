@@ -162,4 +162,16 @@ class PlaceController extends Controller
         Place::destroy($place->id);
         return redirect('/place')->with('success', 'Tempat berhasil dihapus!');
     }
+
+    public function sortTime()
+    {
+        $places = Place::orderBy('created_at','DESC')->get();
+        return view("home", compact('places'));
+    }
+
+    public function sortAlpha()
+    {
+        $places = Place::orderBy('name','ASC')->get();
+        return view("home", compact('places'));
+    }
 }
