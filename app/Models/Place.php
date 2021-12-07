@@ -9,6 +9,8 @@ class Place extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function category_museums()
     {
         return $this->hasMany(CategoryMuseums::class);
@@ -17,6 +19,11 @@ class Place extends Model
     public function category_stories()
     {
         return $this->hasMany(CategoryStories::class);
+    }
+
+    public function type_place()
+    {
+        return $this->belongsTo(TypePlaces::class);
     }
 
 }

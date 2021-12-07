@@ -27,23 +27,24 @@ use App\Http\Controllers\RegisterController;
 //     return view('welcome');
 // });
 
+// Place
 Route::get('/', [PlaceController::class, 'index'])->middleware('auth');
+Route::resource('/place', PlaceController::class)->middleware('auth');
+// Route::get('/place', [PlaceController::class, 'index'])->middleware('auth');
+// Route::get('/place/{id}' , [PlaceController::class, 'show']);
+// Route::get('/place/tambah' , [PlaceController::class, 'create'])->middleware('auth');
+// // Route::post('/place/create', function(){
+//     return view('addplace');
+// });
 
-Route::get('/place', [PlaceController::class, 'index']);
 
-Route::get('/place/{id}' , [PlaceController::class, 'show']);
+// Museum
+Route::get('/museum/{id}/{idmuseum}', [MuseumController::class, 'detail']);
 
-// Route::get('/place', [PlaceController::class, 'show']);
 
-Route::get('/museum', [MuseumController::class, 'show']);
-Route::get('/museum-create', [MuseumController::class, 'create'])->name('museum.create');
-Route::post('/museum-store', [MuseumController::class, 'store'])->name('museum.store');
+// Story
+Route::get('/story/{id}/{idstory}', [StoryController::class, 'detail']);
 
-Route::get('/art', [ArtController::class, 'show']);
-
-Route::get('/artist', [ArtistController::class, 'show']);
-
-Route::get('/story', [StoryController::class, 'show']);
 
 // Login
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Place;
+use App\Models\TypePlaces;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PlaceController extends Controller
 {
@@ -25,7 +27,9 @@ class PlaceController extends Controller
      */
     public function create()
     {
-        //
+        return view('addplace', [
+            'type_places' => TypePlaces::all()
+        ]);
     }
 
     /**
@@ -36,7 +40,38 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $validatedData = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'desc' => 'required|string',
+        //     'image' => 'required|image|mimes:jpg,png,jpeg|max:10240'
+        // ]);
+
+        // if($request->file('image')){
+        //     $validatedData['image'] = $request->file('image')->store('img');
+        // }
+
+        // $validatedData['type_place_id'] = $request->type_places;
+
+        // Place::create($validatedData);
+
+        // return redirect('/place')->with('status','Tempat berhasil ditambah');
+
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'desc' => 'required|string',
+            'image' => 'image|file|max:1024',
+            'type_places' => 'required'
+        ]);
+
+        if($request->file('image')){
+            $validatedData['image'] = $request->file('image')->store('img');
+        }
+
+        $validatedData['type_place_id'] = $request->type_places;
+        
+        Place::create($validatedData);
+
+        return redirect('/place')->with('success', 'Tempat berhasil ditambah!');
     }
 
     /**
@@ -75,7 +110,11 @@ class PlaceController extends Controller
      */
     public function edit(Place $place)
     {
-        //
+        // return view('editplace');
+        return view('editplace', [
+            'place' => $place,
+            'type_places' => TypePlaces::all()
+        ]);
     }
 
     /**
@@ -85,9 +124,34 @@ class PlaceController extends Controller
      * @param  \App\Models\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Place $place)
+    public function update(Request $request, $id, $idplace)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'desc' => 'required|string',
+            'image' => 'image|file|max:1024',
+            'type_places' => 'required'
+        ]);
+
+        Place::where('id', $id)
+        ->update([
+            'name' => $request->name,
+            'desc' => $request->desc
+        ]);
+
+        if($request->has('image'))
+        {
+            $newname = Str::random(20);
+            $newname .=".";
+            $newname .= $request->file('image')->extension();
+
+            $request->file('image')->move(public_path('img'), $newname);
+
+            Medium::where('id', $id)
+            ->update([
+                'image' => $newname
+                ]);
+        }
     }
 
     /**

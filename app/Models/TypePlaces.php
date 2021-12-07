@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TypePlaces extends Model
 {
     use HasFactory;
+
+    public function places()
+    {
+        return $this->hasMany(Places::class);
+    }
 }

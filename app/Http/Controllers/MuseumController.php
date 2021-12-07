@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Museum;
+use App\Models\Place;
+use App\Models\CategoryMuseums;
 use Illuminate\Http\Request;
 
 class MuseumController extends Controller
@@ -12,9 +14,32 @@ class MuseumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $museums = Place::findOrFail($id)->category_museums()->get();
+
+        return view('museums', compact('museums'));
+    }
+
+    public function detail($id, $idplace)
+    {
+        CategoryMuseums::where('museum_id', $id)->where('place_id', $idplace)->firstOrFail(); //cek apakah museum dan place sudah sesuai
+        $museum = Museum::findOrFail($id); //cari detail musuem
+        $places = CategoryMuseums::where('museum_id', $id)->get(); //medium yang ada pada item tersebut
+        $count = Place::find($idplace)->category_museums()->where('museum_id', '<>', $id)->count(); //jumlah museum pada place yang sama
+        $museums = Place::find($idplace)->category_museums()->where('museum_id', '<>', $id)->offset(rand(0, $count-6))->limit(6)->get(); //musuem lain pada place yang sama
+        $allplace = Place::all(); //daftar semua place
+        
+        // if(Auth::check())
+        // {
+        //     $liked = User::find(Auth::user()->id)->favourites()->where('fav_id',2)->where('item_id', $id)->count();
+        // }
+        // else
+        // {
+        //     $liked = -1;
+        // }
+
+        return view('showmuseum', compact('museum', 'places', 'count', 'museums', 'allplace'));
     }
 
     /**
@@ -53,9 +78,9 @@ class MuseumController extends Controller
      * @param  \App\Models\Museum  $museum
      * @return \Illuminate\Http\Response
      */
-    public function show(Museum $museum)
+    public function show($id)
     {
-        return view('showmuseum');
+        // return view('showmuseum');
     }
 
     /**
