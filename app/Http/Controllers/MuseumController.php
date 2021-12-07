@@ -24,7 +24,7 @@ class MuseumController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -35,7 +35,16 @@ class MuseumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $imageName=time().'.'.$request->image->extension();
+        $request->File('image')->storeAs('/public', $imageName);
+        Museum::create([
+            'art_id' => $request->artId,
+            'name' => $request->name,
+            'desc' => $request->desc,
+            'image' => $imageName,
+        ]);
+
+        return redirect('museum-create');
     }
 
     /**
