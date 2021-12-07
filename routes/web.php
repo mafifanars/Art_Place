@@ -32,8 +32,8 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/place', [PlaceController::class, 'show']);
 
 Route::get('/museum', [MuseumController::class, 'show']);
-Route::get('/museum/create', [MuseumController::class, 'create'])->name('museum.create');
-Route::post('/museum/store', [MuseumController::class, 'store'])->name('museum.store');
+Route::get('/museum-create', [MuseumController::class, 'create'])->name('museum.create');
+Route::post('/museum-store', [MuseumController::class, 'store'])->name('museum.store');
 
 Route::get('/art', [ArtController::class, 'show']);
 
