@@ -148,35 +148,7 @@ class PlaceController extends Controller
         Place::where('id', $place->id)
             ->update($validatedData);
 
-        return redirect('/place/'. $place->id)->with('success', 'Tempat berhasil diubah!');
-        // $validatedData = $request->validate([
-        //     'name' => 'required|max:255',
-        //     'desc' => 'required|string',
-        //     'image' => 'image|file|max:1024',
-        //     'type_places' => 'required'
-        // ]);
-
-        // Place::where('id', $place)
-        // ->update([
-        //     'name' => $request->name,
-        //     'desc' => $request->desc
-        // ]);
-
-        // if($request->has('image'))
-        // {
-        //     $newname = Str::random(20);
-        //     $newname .=".";
-        //     $newname .= $request->file('image')->extension();
-
-        //     $request->file('image')->move(public_path('img'), $newname);
-
-        //     Place::where('id', $place)
-        //     ->update([
-        //         'image' => $newname
-        //         ]);
-        // }
-
-        // return redirect('/place')->with('success', 'Tempat berhasil diubah');
+        return redirect('/place/'. $place->id)->with('success', 'Tempat berhasil diubah!');;
     }
 
     /**
@@ -187,6 +159,7 @@ class PlaceController extends Controller
      */
     public function destroy(Place $place)
     {
-        //
+        Place::destroy($place->id);
+        return redirect('/place')->with('success', 'Tempat berhasil dihapus!');
     }
 }

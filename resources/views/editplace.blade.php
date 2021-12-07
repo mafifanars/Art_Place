@@ -61,7 +61,7 @@
                 @endforeach
                 </select>
             </div>
-            <button type="submit" class="badge rounded-pill bg-primary bi bi-plus-circle"> Edit</button>
+            <button type="submit" class="badge rounded-pill bg-warning bi bi-pencil-square border-0"> Edit</button>
         </form>
     </div>
 </div>

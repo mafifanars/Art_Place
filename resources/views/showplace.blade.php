@@ -7,6 +7,12 @@
 @section('container')
 
     <div class="container mt-3">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
         <div class="card mb-3 mt-3">
 
             @if ($place->image)
@@ -18,7 +24,12 @@
             @if (Auth::check())
                 @if (Auth::user()->is_admin == "1")
                         <a href="/place/{{ $place->id }}/edit" class="mb-3"><span class="badge rounded-pill bg-warning bi bi-pencil-square"> Edit</span></a>
-                        <a href="/place/create" class="mb-3"><span class="badge rounded-pill bg-danger bi bi-trash"> Hapus</span></a>
+                        <form action="{{ url('/place/'.$place->id) }}" method="POST" class="ms-2 text-photo d-inline" onsubmit="return confirm('Apakah yakin ingin menghapus?')">
+                            @csrf
+                            @method('delete')
+                                <button type="submit" class="badge rounded-pill bg-danger bi bi-trash border-0"> Hapus</button>
+                        </form>
+                        {{-- <a href="/place/create" class="mb-3"><span class="badge rounded-pill bg-danger bi bi-trash"> Hapus</span></a> --}}
                 @endif
             @endif
         <div>
