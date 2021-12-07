@@ -6,6 +6,7 @@ use App\Models\Place;
 use App\Models\TypePlaces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PlaceController extends Controller
 {
@@ -124,34 +125,58 @@ class PlaceController extends Controller
      * @param  \App\Models\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id, $idplace)
+    public function update(Request $request, Place $place)
     {
-        $validatedData = $request->validate([
+        $rules = [
             'name' => 'required|max:255',
             'desc' => 'required|string',
             'image' => 'image|file|max:1024',
-            'type_places' => 'required'
-        ]);
+            // 'type_places' => 'required'
+        ];
 
-        Place::where('id', $id)
-        ->update([
-            'name' => $request->name,
-            'desc' => $request->desc
-        ]);
+        $validatedData = $request->validate($rules);
 
-        if($request->has('image'))
-        {
-            $newname = Str::random(20);
-            $newname .=".";
-            $newname .= $request->file('image')->extension();
-
-            $request->file('image')->move(public_path('img'), $newname);
-
-            Medium::where('id', $id)
-            ->update([
-                'image' => $newname
-                ]);
+        if($request->file('image')){
+            if($request->oldImage){
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['image'] = $request->file('image')->store('img');
         }
+
+        $validatedData['type_place_id'] = $request->type_places;
+        
+        Place::where('id', $place->id)
+            ->update($validatedData);
+
+        return redirect('/place/'. $place->id)->with('success', 'Tempat berhasil diubah!');
+        // $validatedData = $request->validate([
+        //     'name' => 'required|max:255',
+        //     'desc' => 'required|string',
+        //     'image' => 'image|file|max:1024',
+        //     'type_places' => 'required'
+        // ]);
+
+        // Place::where('id', $place)
+        // ->update([
+        //     'name' => $request->name,
+        //     'desc' => $request->desc
+        // ]);
+
+        // if($request->has('image'))
+        // {
+        //     $newname = Str::random(20);
+        //     $newname .=".";
+        //     $newname .= $request->file('image')->extension();
+
+        //     $request->file('image')->move(public_path('img'), $newname);
+
+        //     Place::where('id', $place)
+        //     ->update([
+        //         'image' => $newname
+        //         ]);
+        // }
+
+        // return redirect('/place')->with('success', 'Tempat berhasil diubah');
     }
 
     /**

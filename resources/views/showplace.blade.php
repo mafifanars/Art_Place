@@ -83,7 +83,11 @@
                 <div class="col-md-3 mt-3">
                     <div class="image">
                         <div class="position-absolute px-3 py-1 text-white fs-4" style="background-color: rgba(0,0,0,0);">{{ $place->name }}</div>
-                        <a href="/place/{{ $place->id }}"><img src="{{ asset('img/'.$place->image) }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
+                        @if ($place->image)
+                            <a href="/place/{{ $place->id }}"><img src="{{ asset('img/'.$place->image) }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $place->image }}"></a>
+                        @else
+                            <a href="/place/{{ $place->id }}"><img src="https://source.unsplash.com/1200x400?{{ $place->name }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $place->image }}"></a>
+                        @endif
                     </div>
                 </div>
                 @endforeach
