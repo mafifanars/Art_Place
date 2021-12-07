@@ -18,7 +18,7 @@ class CreateStoriesTable extends Migration
             $table->string('title');
             $table->text('desc');
             $table->string('image');
-            $table->timestamps();;
+            $table->timestamps();
         });
     }
 

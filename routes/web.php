@@ -27,9 +27,13 @@ use App\Http\Controllers\RegisterController;
 //     return view('welcome');
 // });
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [PlaceController::class, 'index'])->middleware('auth');
 
-Route::get('/place', [PlaceController::class, 'show']);
+Route::get('/place', [PlaceController::class, 'index']);
+
+Route::get('/place/{id}' , [PlaceController::class, 'show']);
+
+// Route::get('/place', [PlaceController::class, 'show']);
 
 Route::get('/museum', [MuseumController::class, 'show']);
 Route::get('/museum-create', [MuseumController::class, 'create'])->name('museum.create');

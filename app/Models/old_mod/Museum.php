@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Museum extends Model
 {
     use HasFactory;
-
-    public function category_museums()
-    {
-        return $this->hasMany(CategoryMuseums::class);
-    }
+    protected $table = "museums";
+    protected $fillable = [
+        'art_id','name', 'desc', 'image'];
 }

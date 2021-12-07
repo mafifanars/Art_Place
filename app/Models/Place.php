@@ -9,8 +9,14 @@ class Place extends Model
 {
     use HasFactory;
 
-    public function category()
+    public function category_museums()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasMany(CategoryMuseums::class);
     }
+
+    public function category_stories()
+    {
+        return $this->hasMany(CategoryStories::class);
+    }
+
 }

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Story extends Model
 {
     use HasFactory;
+
+    public function category_stories()
+    {
+        return $this->hasMany(CategoryStories::class);
+    }
+
 }

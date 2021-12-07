@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('title')
+    Tempat
+@endsection
+
 @section('container')
     <!-- Header Section -->
     <header>
@@ -22,12 +26,13 @@
     <div class="container">
         <div class="row mt-4">
             <a href="" class=""><span class="badge rounded-pill bg-primary bi bi-plus-circle"> Tambah</span></a>
-            @foreach ($items as $item)
+            @foreach ($places as $place)
             <div class="col-md-3 mt-3">
                 <div class="image" >
-                    <div class="position-absolute px-3 py-1 text-white" style="background-color: rgba(0,0,0,0);">{{ $item->place->name }}</div>
-                    <div class="position-absolute px-3 py-4 text-white" style="background-color: rgba(0,0,0,0);">100 items</div>
-                    <a href="/place"><img src="img/{{ $item->place->image }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
+                    <div class="position-absolute px-3 py-1 text-white" style="background-color: rgba(0,0,0,0);">{{ $place->name }}</div>
+                    <div class="position-absolute px-3 py-4 text-white" style="background-color: rgba(0,0,0,0);">{{ $place->category_museums()->count() }} Museum</div>
+                    {{-- <div class="position-absolute px-3 py-4 text-white" style="background-color: rgba(0,0,0,0);">{{ $place->category_stories()->count() }} Cerita</div> --}}
+                    <a href="/place/{{ $place->id }}"><img src="{{ asset('img/'.$place->image) }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
                 </div>
             </div>
             @endforeach

@@ -14,7 +14,8 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        // 
+        $places = Place::orderBy('id','DESC')->get();
+        return view("home", compact('places'));
     }
 
     /**
@@ -44,11 +45,26 @@ class PlaceController extends Controller
      * @param  \App\Models\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function show(Place $place)
+    public function show($id)
     {
-        return view('showplace',[
-            'places' => Place::all()
-        ]);
+        $place = Place::findOrFail($id);
+        $count_museum = Place::find($id)->category_museums()->count();
+        $count_story = Place::find($id)->category_stories()->count();
+        $museums = Place::find($id)->category_museums()->orderBy('museum_id', 'DESC')->paginate(5);
+        $stories = Place::find($id)->category_stories()->orderBy('story_id', 'DESC')->paginate(12);
+        $places = Place::where('id','<>',$id)->paginate(5);
+        // if(Auth::check())
+        // {
+        //     $liked = User::find(Auth::user()->id)->favourites()->where('fav_id',1)->where('place_id', $id)->count();
+        // }
+        // else
+        // {
+        //     $liked = -1;
+        // }
+        return view("showplace", compact('place','count_museum','count_story','museums', 'stories', 'places'));
+        // return view('showplace',[
+        //     'places' => Place::all()
+        // ]);
     }
 
     /**

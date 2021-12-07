@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Museum extends Model
+class Place extends Model
 {
     use HasFactory;
 
-    public function category_museums()
+    public function category()
     {
-        return $this->hasMany(CategoryMuseums::class);
+        return $this->belongsTo(Category::class);
     }
 }
