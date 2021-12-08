@@ -30,14 +30,9 @@ class LoginController extends Controller
             }
         } else{
             return back()->with('loginError', 'Login gagal!');;
-        }  
+        }
 
-        // if(Auth::attempt($credentials)){
-        //     $a = $request->session()->regenerate();
-        //     return redirect()->intended('/');
-        // }
-
-        // return back()->with('loginError', 'Login gagal!');
+        // SELECT * FROM 'users' WHERE 'email' = $request->email AND 'password' = request->password
     }
 
     public function logout()

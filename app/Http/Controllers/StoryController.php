@@ -19,7 +19,6 @@ class StoryController extends Controller
     public function index($id)
     {
         $stories = Place::findOrFail($id)->category_stories()->get();
-
         return view('stories', compact('stories'));
     }
 
@@ -30,15 +29,6 @@ class StoryController extends Controller
         $count = Place::find($idstory)->category_stories()->where('story_id', '<>', $id)->count(); //jumlah story pada place yang sama
         $stories = Place::find($idstory)->category_stories()->where('story_id', '<>', $id)->offset(rand(0, $count-6))->limit(6)->get(); //musuem lain pada place yang sama
         $allplace = Place::where('id','<>',$id)->paginate(5); //daftar semua place
-        
-        // if(Auth::check())
-        // {
-        //     $liked = User::find(Auth::user()->id)->favourites()->where('fav_id',2)->where('item_id', $id)->count();
-        // }
-        // else
-        // {
-        //     $liked = -1;
-        // }
 
         return view('showstory', compact('story', 'count', 'stories', 'allplace'));
     }
@@ -70,27 +60,22 @@ class StoryController extends Controller
             'desc' => 'required|string',
             'image' => 'image|file|max:1024'
         ]);
-
+        
         if($request->file('image')){
             $validatedData['image'] = $request->file('image')->store('img');
         }
 
-        // $place_id = (int)$request->place_id;
-
-        // $validatedData['story_id'] = [];
-
         Story::create($validatedData);
 
         $idStory = Story::orderBy('id', 'DESC')->first();
-
-        // $placeId = $request->place_id;
+        // dd($idStory->id);
 
         CategoryStories::create([
             'story_id' => $idStory->id,
-            'place_id' => (int)$request->place_id
+            'place_id' => $request->place_id
         ]);
 
-        return redirect('/story/'. $request->place_id)->with('success','Cerita berhasil ditambah');
+        return redirect('/place/'. $request->place_id)->with('success','Cerita berhasil ditambah');
     }
 
     /**

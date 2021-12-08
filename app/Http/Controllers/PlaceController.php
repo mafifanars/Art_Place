@@ -19,6 +19,8 @@ class PlaceController extends Controller
     {
         $places = Place::orderBy('id','DESC')->get();
         return view("home", compact('places'));
+
+        // SELECT * FROM `places` ORDER BY `id` DESC
     }
 
     /**
@@ -41,22 +43,7 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        // $validatedData = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'desc' => 'required|string',
-        //     'image' => 'required|image|mimes:jpg,png,jpeg|max:10240'
-        // ]);
-
-        // if($request->file('image')){
-        //     $validatedData['image'] = $request->file('image')->store('img');
-        // }
-
-        // $validatedData['type_place_id'] = $request->type_places;
-
-        // Place::create($validatedData);
-
-        // return redirect('/place')->with('status','Tempat berhasil ditambah');
-
+        
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'desc' => 'required|string',
@@ -89,18 +76,8 @@ class PlaceController extends Controller
         $museums = Place::find($id)->category_museums()->orderBy('museum_id', 'DESC')->paginate(5);
         $stories = Place::find($id)->category_stories()->orderBy('story_id', 'DESC')->paginate(12);
         $places = Place::where('id','<>',$id)->paginate(5);
-        // if(Auth::check())
-        // {
-        //     $liked = User::find(Auth::user()->id)->favourites()->where('fav_id',1)->where('place_id', $id)->count();
-        // }
-        // else
-        // {
-        //     $liked = -1;
-        // }
+        
         return view("showplace", compact('place','count_museum','count_story','museums', 'stories', 'places'));
-        // return view('showplace',[
-        //     'places' => Place::all()
-        // ]);
     }
 
     /**

@@ -34,16 +34,6 @@ class MuseumController extends Controller
         $allplace = Place::all(); //daftar semua place
         $placeid = Place::orderBy('id', 'DESC')->first();
 
-        
-        // if(Auth::check())
-        // {
-        //     $liked = User::find(Auth::user()->id)->favourites()->where('fav_id',2)->where('item_id', $id)->count();
-        // }
-        // else
-        // {
-        //     $liked = -1;
-        // }
-
         return view('showmuseum', compact('museum', 'places', 'count', 'museums', 'allplace', 'placeid'));
     }
 
@@ -111,7 +101,6 @@ class MuseumController extends Controller
     {
         return view('editmuseum', [
             'museum' => $museum,
-            // 'placeid' => Place::orderBy('id', 'DESC')->first()
         ]);
     }
 

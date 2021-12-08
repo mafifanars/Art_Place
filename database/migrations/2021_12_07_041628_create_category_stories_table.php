@@ -16,9 +16,9 @@ class CreateCategoryStoriesTable extends Migration
         Schema::create('category_stories', function (Blueprint $table) {
             $table->id();
             $table->unsignedbiginteger('story_id');
-            $table->foreign('story_id')->references('id')->on('stories')->onDelete('restrict');
+            $table->foreign('story_id')->references('id')->on('stories')->onDelete('cascade');
             $table->unsignedbiginteger('place_id');
-            $table->foreign('place_id')->references('id')->on('places')->onDelete('restrict');
+            $table->foreign('place_id')->references('id')->on('places')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -10,7 +10,18 @@
         <div class="card mb-3">
             <img src="{{ $story->image }}" class="img-fluid rounded" style="height: 350px" alt="...">
         </div>
-
+        @if (Auth::check())
+            @if (Auth::user()->is_admin == "1")
+                    <a href="{{url('/story/edit/'.$story->id.'/'.$placeId)}}" class="mb-3"><span class="badge rounded-pill bg-warning bi bi-pencil-square"> Edit</span></a>
+                    
+                    <form action="/story/delete/" method="POST" class="ms-2 text-photo d-inline" onsubmit="return confirm('Apakah yakin ingin menghapus?')">
+                            @csrf
+                            <input type="hidden" name="story_id" value="{{ $story->id }}"> 
+                            <input type="hidden" name="place_id" value="{{ $placeId }}"> 
+                            <button type="submit" class="badge rounded-pill bg-danger bi bi-trash border-0"> Hapus</button>
+                    </form>
+            @endif
+        @endif
         <div>
             <p class="text-center fs-3">{{ $story->title }}</p>
         </div>

@@ -7,9 +7,14 @@
 @section('container')
 
     <div class="container mt-3">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
         <div class="card mb-3">
             @if ($museum->image)
-                {{-- <img src="{{ asset('img/'.$museum->image) }}" class="img-fluid rounded" style="height: 350px" alt="..."> --}}
                 <img src="{{ $museum->image }}" class="img-fluid rounded" style="height: 350px" alt="{{ $museum->name }}">
             @else
                 <img src="https://source.unsplash.com/1200x400?{{ $museum->name }}" class="img-fluid rounded" style="height: 350px" alt="{{ $museum->name }}">
@@ -20,9 +25,10 @@
             {{-- {{url('/article/edit/'.$articles->id.'/'.$idmed)}} --}}
                     <a href="{{url('/museum/edit/'.$museum->id.'/'.$placeid->id)}}" class="mb-3"><span class="badge rounded-pill bg-warning bi bi-pencil-square"> Edit</span></a>
                     
-                    <form action="{{ url('/museum/'. $museum->id . '/' . $placeid->id) }}" method="POST" class="ms-2 text-photo d-inline" onsubmit="return confirm('Apakah yakin ingin menghapus?')">
+                    <form action="/museum/delete/" method="POST" class="ms-2 text-photo d-inline" onsubmit="return confirm('Apakah yakin ingin menghapus?')">
                             @csrf
-                            @method('delete')
+                            <input type="hidden" name="museum_id" value="{{ $museum->id }}"> 
+                            <input type="hidden" name="place_id" value="{{ $placeid->id }}"> 
                             <button type="submit" class="badge rounded-pill bg-danger bi bi-trash border-0"> Hapus</button>
                     </form>
             @endif

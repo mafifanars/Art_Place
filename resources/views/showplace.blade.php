@@ -51,11 +51,10 @@
                     @endif
                 @endif
                 @foreach($museums as $museum)
-                {{ $museum->name }}
                 <div class="col-md-3 mt-3">
                     <div class="image" >
                         <div class="position-absolute px-2 py-1 text-white" style="background-color: rgba(0,0,0,0);">{{ $museum->museum->name }}</div>
-                        @if ($museum->image)
+                        @if ($museum->museum->image)
                             <a href="{{ url('/museum/'.$museum->museum_id.'/'.$museum->place_id) }}"><img src="{{ $museum->museum->image }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $place->name }}"></a>
                         @else
                             <a href="{{ url('/museum/'.$museum->museum_id.'/'.$museum->place_id) }}"><img src="https://source.unsplash.com/1200x400?{{ $museum->museum->name }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $museum->museum->name }}"></a>
@@ -79,8 +78,11 @@
                 @foreach($stories as $story)
                 <div class="col-md-3 mt-3">
                     <div class="image" >
-                        {{-- <div class="position-absolute px-3 py-1 text-white" style="background-color: rgba(0,0,0,0);">{{ $story->story->title }}</div> --}}
-                        <a href="{{ url('/story/'.$story->story_id.'/'.$museum->place_id) }}"><img src="{{ $story->story->image }}" class="rounded" style="width: 180px; height: 200px;" alt="..."></a>
+                        @if ($story->story->image)
+                            <a href="{{ url('/story/'.$story->story->id.'/'.$museum->place_id) }}"><img src="{{ $story->story->image }}" class="rounded" style="width: 180px; height: 200px;" alt="{{ $story->story->title }}"></a>
+                        @else
+                            <a href="{{ url('/story/'.$story->story->id.'/'.$museum->place_id) }}"><img src="https://source.unsplash.com/1200x400?{{ $story->story->title }}" class="rounded" style="width: 180px; height: 200px;" alt="{{ $story->story->title }}"></a>
+                        @endif
                         <p class="px-0 mt-1 col-md-8" style="font-size: 12px">{{ $story->story->title }}</p>
                     </div>
                 </div>

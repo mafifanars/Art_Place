@@ -11,6 +11,8 @@ use App\Http\Controllers\StoryController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\MuseumController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\StoryControllerSec;
+use App\Http\Controllers\MuseumControllerSec;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,14 +38,17 @@ Route::post('/place/sortbyalpha', [PlaceController::class, 'sortAlpha']);
 
 // Museum
 Route::get('/museum/{id}/{idmuseum}', [MuseumController::class, 'detail']);
-Route::resource('/museum', MuseumController::class)->middleware('auth');
-// Route::delete('/museum/{id}/{idmuseum}', [MuseumController::class, 'destroy']);
-Route::post('/museum/create/{id}', [MuseumController::class, 'add'])->middleware('auth');
+Route::resource('/museum', MuseumController::class)->middleware('auth');;
+Route::get('/museum/edit/{idmuseum}/{idplace}', [MuseumControllerSec::class, 'edit']);
+Route::post('/museum/edit', [MuseumControllerSec::class, 'update']);
+Route::post('/museum/delete', [MuseumControllerSec::class, 'destroy']);
 
 
 // Story
-Route::get('/story/{id}/{idstory}', [StoryController::class, 'detail']);
+Route::get('/story/{id}/{idstory}', [StoryControllerSec::class, 'detail']);
 Route::resource('/story', StoryController::class)->middleware('auth');
+Route::post('/story/edit', [StoryControllerSec::class, 'update']);
+Route::post('/story/delete', [StoryControllerSec::class, 'destroy']);
 
 
 // Login

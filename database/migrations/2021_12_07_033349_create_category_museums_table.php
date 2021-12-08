@@ -16,9 +16,9 @@ class CreateCategoryMuseumsTable extends Migration
         Schema::create('category_museums', function (Blueprint $table) {
             $table->id();
             $table->unsignedbiginteger('museum_id');
-            $table->foreign('museum_id')->references('id')->on('museums')->onDelete('restrict');
+            $table->foreign('museum_id')->references('id')->on('museums')->onDelete('cascade');
             $table->unsignedbiginteger('place_id');
-            $table->foreign('place_id')->references('id')->on('places')->onDelete('restrict');
+            $table->foreign('place_id')->references('id')->on('places')->onDelete('cascade');
             $table->timestamps();
         });
     }

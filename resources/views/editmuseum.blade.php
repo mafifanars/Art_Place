@@ -1,7 +1,8 @@
+
 @extends('layouts.main')
 
 @section('title')
-    Add Place
+    Edit Place
 @endsection
 
 @section('container')
@@ -10,14 +11,14 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Tambah Museum Baru</h1>
     </div>
-    {{ $place->id }}
     <div class="col-lg-8 align-items-center">
-        <form method="post" action="/museum/{{ $museum->id }}" class="mb-5" enctype="multipart/form-data">
+        <form method="post" action="/museum/edit" class="mb-5" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
-                <input type="hidden" name="place_id" id="place_id" value="{{ $place->id }}">
+                <input type="hidden" name="museum_id" id="museum_id" value="{{ $editmuseum->id }}">
+                <input type="hidden" name="place_id" id="place_id" value="{{ $idplace }}">
                 <label for="name" class="form-label">Nama Museum</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{ old('name', $museum->name) }}">
+                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{ old('name', $editmuseum->name) }}">
                 @error('name')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -26,7 +27,7 @@
             </div>
             <div class="mb-3">
                 <label for="desc">Deskripsi</label>
-                <textarea class="form-control @error('desc')is-invalid @enderror" name="desc" id="desc" cols="30" rows="8" placeholder="Deskripsi">{{ old('desc', $museum->desc) }}</textarea>
+                <textarea class="form-control @error('desc')is-invalid @enderror" name="desc" id="desc" cols="30" rows="8" placeholder="Deskripsi">{{ old('desc', $editmuseum->desc) }}</textarea>
                 @error('desc')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -34,10 +35,10 @@
                 @enderror   
             </div>
             <div class="mb-3">
-                label for="image" class="form-label">Gambar</label>
-                <input type="hidden" name="oldImage" value="{{ $place->image }}">
-                @if ($place->image)
-                    <img src="{{ asset('storage/' . $place->image) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
+                <label for="image" class="form-label">Gambar</label>
+                <input type="hidden" name="oldImage" value="{{ $editmuseum->image }}">
+                @if ($editmuseum->image)
+                    <img src="{{ asset('storage/' . $editmuseum->image) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
                 @else
                     <img class="img-preview img-fluid mb-3 col-sm-5">
                 @endif
@@ -48,7 +49,7 @@
                     </div>
                 @enderror
             </div>
-            <button type="submit" class="badge rounded-pill bg-primary bi bi-plus-circle border-0"> Tambah</button>
+            <button type="submit" class="badge rounded-pill bg-warning bi bi-pencil-square border-0"> Edt</button>
         </form>
     </div>
 </div>
