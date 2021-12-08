@@ -59,7 +59,7 @@ class StoryControllerSec extends Controller
     {
         // dd($request->museum_id, $request->place_id);
         Story::destroy($request->story_id);
-        CategoryStory::destroy($request->story_id);
+        CategoryStories::destroy($request->story_id);
 
         return redirect('/place/'. $request->place_id)->with('success', 'Cerita berhasil dihapus!');
     }
