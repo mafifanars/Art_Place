@@ -28,10 +28,12 @@ class MuseumController extends Controller
     {
         CategoryMuseums::where('museum_id', $id)->where('place_id', $idplace)->firstOrFail(); //cek apakah museum dan place sudah sesuai
         $museum = Museum::findOrFail($id); //cari detail musuem
-        $places = CategoryMuseums::where('museum_id', $id)->get(); //medium yang ada pada item tersebut
+        $places = CategoryMuseums::where('museum_id', $id)->get(); //place yang ada pada item tersebut
         $count = Place::find($idplace)->category_museums()->where('museum_id', '<>', $id)->count(); //jumlah museum pada place yang sama
         $museums = Place::find($idplace)->category_museums()->where('museum_id', '<>', $id)->offset(rand(0, $count-6))->limit(6)->get(); //musuem lain pada place yang sama
         $allplace = Place::all(); //daftar semua place
+        $placeid = Place::orderBy('id', 'DESC')->first();
+
         
         // if(Auth::check())
         // {
@@ -42,7 +44,7 @@ class MuseumController extends Controller
         //     $liked = -1;
         // }
 
-        return view('showmuseum', compact('museum', 'places', 'count', 'museums', 'allplace'));
+        return view('showmuseum', compact('museum', 'places', 'count', 'museums', 'allplace', 'placeid'));
     }
 
     /**
@@ -80,18 +82,6 @@ class MuseumController extends Controller
 
         $idMuseum = Museum::orderBy('id', 'DESC')->first();
 
-        // dd($request->all());
-
-        // $x = DB::table('category_museums')
-        //     ->join('museums', 'museums.id' , '=', 'category_museums.museum_id')
-        //     ->where('museums.id', '=', $idMuseum->id)
-        //     ->select('category_museums.place_id')
-        //     ->get();
-
-        // dd($x);
-
-        
-
         CategoryMuseums::create([
             'museum_id' => $idMuseum->id,
             'place_id' => $request->place_id
@@ -119,7 +109,10 @@ class MuseumController extends Controller
      */
     public function edit(Museum $museum)
     {
-        //
+        return view('editmuseum', [
+            'museum' => $museum,
+            // 'placeid' => Place::orderBy('id', 'DESC')->first()
+        ]);
     }
 
     /**
@@ -140,8 +133,10 @@ class MuseumController extends Controller
      * @param  \App\Models\Museum  $museum
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Museum $museum)
+    public function destroy($id, $idplace)
     {
-        //
+        Museum::destroy($id);
+
+        return redirect('/museum/'.$idplace)->with('success','Museum berhasil dihapus');
     }
 }

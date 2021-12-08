@@ -17,10 +17,12 @@
         </div>
         @if (Auth::check())
             @if (Auth::user()->is_admin == "1")
-                    <a href="/museum/{{ $museum->id }}/edit" class="mb-3"><span class="badge rounded-pill bg-warning bi bi-pencil-square"> Edit</span></a>
-                    <form action="{{ url('/museum/'.$museum->id) }}" method="POST" class="ms-2 text-photo d-inline" onsubmit="return confirm('Apakah yakin ingin menghapus?')">
-                        @csrf
-                        @method('delete')
+            {{-- {{url('/article/edit/'.$articles->id.'/'.$idmed)}} --}}
+                    <a href="{{url('/museum/edit/'.$museum->id.'/'.$placeid->id)}}" class="mb-3"><span class="badge rounded-pill bg-warning bi bi-pencil-square"> Edit</span></a>
+                    
+                    <form action="{{ url('/museum/'. $museum->id . '/' . $placeid->id) }}" method="POST" class="ms-2 text-photo d-inline" onsubmit="return confirm('Apakah yakin ingin menghapus?')">
+                            @csrf
+                            @method('delete')
                             <button type="submit" class="badge rounded-pill bg-danger bi bi-trash border-0"> Hapus</button>
                     </form>
             @endif

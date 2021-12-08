@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoryStories extends Model
 {
+    protected $fillable = ['story_id', 'place_id'];
+
     public function story()
     {
         return $this->belongsTo(Story::class);

@@ -1,24 +1,23 @@
-
 @extends('layouts.main')
 
 @section('title')
-    Update Place
+    Add Place
 @endsection
 
 @section('container')
 <div class="container">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Edit Tempat</h1>
+        <h1 class="h2">Tambah Museum Baru</h1>
     </div>
-    
+    {{ $place->id }}
     <div class="col-lg-8 align-items-center">
-        <form method="post" action="/place/{{ $place->id }}" class="mb-5" enctype="multipart/form-data">
-            @method('put')
+        <form method="post" action="/museum/{{ $museum->id }}" class="mb-5" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
-                <label for="name" class="form-label">Nama Tempat</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{ old('name', $place->name) }}">
+                <input type="hidden" name="place_id" id="place_id" value="{{ $place->id }}">
+                <label for="name" class="form-label">Nama Museum</label>
+                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{ old('name', $museum->name) }}">
                 @error('name')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -27,7 +26,7 @@
             </div>
             <div class="mb-3">
                 <label for="desc">Deskripsi</label>
-                <textarea class="form-control @error('desc')is-invalid @enderror" name="desc" id="desc" cols="30" rows="8" placeholder="Deskripsi" value="{{ old('desc') }}">{{ old('desc', $place->desc) }}</textarea>
+                <textarea class="form-control @error('desc')is-invalid @enderror" name="desc" id="desc" cols="30" rows="8" placeholder="Deskripsi">{{ old('desc', $museum->desc) }}</textarea>
                 @error('desc')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -35,7 +34,7 @@
                 @enderror   
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Gambar</label>
+                label for="image" class="form-label">Gambar</label>
                 <input type="hidden" name="oldImage" value="{{ $place->image }}">
                 @if ($place->image)
                     <img src="{{ asset('storage/' . $place->image) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
@@ -49,19 +48,7 @@
                     </div>
                 @enderror
             </div>
-            <div class="mb-3">
-                <label for="category" class="form-label">Tipe Tempat</label>
-                <select class="form-select" name="type_places">
-                    @foreach ($type_places as $type)
-                        @if (old('type_places') == $type->id)
-                            <option value="{{ $type->id }}" selected>{{ $type->name }}</option>    
-                        @else
-                            <option value="{{ $type->id }}">{{ $type->name }}</option>    
-                    @endif 
-                @endforeach
-                </select>
-            </div>
-            <button type="submit" class="badge rounded-pill bg-warning bi bi-pencil-square border-0"> Edit</button>
+            <button type="submit" class="badge rounded-pill bg-primary bi bi-plus-circle border-0"> Tambah</button>
         </form>
     </div>
 </div>

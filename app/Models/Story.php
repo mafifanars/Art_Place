@@ -9,6 +9,8 @@ class Story extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'desc', 'image'];
+
     public function category_stories()
     {
         return $this->hasMany(CategoryStories::class);

@@ -6,6 +6,8 @@ use App\Models\Story;
 use App\Models\Place;
 use App\Models\CategoryStories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class StoryController extends Controller
 {
@@ -49,7 +51,10 @@ class StoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('addstory', [
+            'category_story' => CategoryStories::all(),
+            'place' => Place::orderBy('id', 'DESC')->first()
+        ]);
     }
 
     /**
@@ -60,7 +65,32 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'desc' => 'required|string',
+            'image' => 'image|file|max:1024'
+        ]);
+
+        if($request->file('image')){
+            $validatedData['image'] = $request->file('image')->store('img');
+        }
+
+        // $place_id = (int)$request->place_id;
+
+        // $validatedData['story_id'] = [];
+
+        Story::create($validatedData);
+
+        $idStory = Story::orderBy('id', 'DESC')->first();
+
+        // $placeId = $request->place_id;
+
+        CategoryStories::create([
+            'story_id' => $idStory->id,
+            'place_id' => (int)$request->place_id
+        ]);
+
+        return redirect('/story/'. $request->place_id)->with('success','Cerita berhasil ditambah');
     }
 
     /**

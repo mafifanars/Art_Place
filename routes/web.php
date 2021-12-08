@@ -37,11 +37,13 @@ Route::post('/place/sortbyalpha', [PlaceController::class, 'sortAlpha']);
 // Museum
 Route::get('/museum/{id}/{idmuseum}', [MuseumController::class, 'detail']);
 Route::resource('/museum', MuseumController::class)->middleware('auth');
-// Route::get('/museum/create/{id}', [MuseumController::class, 'add'])->middleware('auth');
+// Route::delete('/museum/{id}/{idmuseum}', [MuseumController::class, 'destroy']);
+Route::post('/museum/create/{id}', [MuseumController::class, 'add'])->middleware('auth');
 
 
 // Story
 Route::get('/story/{id}/{idstory}', [StoryController::class, 'detail']);
+Route::resource('/story', StoryController::class)->middleware('auth');
 
 
 // Login

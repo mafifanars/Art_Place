@@ -73,7 +73,7 @@
             <div class="row mt-2">
                 @if (Auth::check())
                     @if (Auth::user()->is_admin == "1")
-                            <a href="" class=""><span class="badge rounded-pill bg-primary bi bi-plus-circle"> Tambah</span></a>
+                            <a href="/story/create" class=""><span class="badge rounded-pill bg-primary bi bi-plus-circle"> Tambah</span></a>
                     @endif
                 @endif
                 @foreach($stories as $story)
