@@ -70,12 +70,12 @@ class PlaceController extends Controller
      */
     public function show($id)
     {
-        $place = Place::findOrFail($id);
-        $count_museum = Place::find($id)->category_museums()->count();
-        $count_story = Place::find($id)->category_stories()->count();
-        $museums = Place::find($id)->category_museums()->orderBy('museum_id', 'DESC')->paginate(5);
-        $stories = Place::find($id)->category_stories()->orderBy('story_id', 'DESC')->paginate(12);
-        $places = Place::where('id','<>',$id)->paginate(5);
+        $place = Place::findOrFail($id); //cek apakah story dan place sudah sesuai
+        $count_museum = Place::find($id)->category_museums()->count(); //cari detail musuem
+        $count_story = Place::find($id)->category_stories()->count(); //story yang ada pada item tersebut
+        $museums = Place::find($id)->category_museums()->orderBy('museum_id', 'DESC')->paginate(5); //jumlah story pada place yang sama
+        $stories = Place::find($id)->category_stories()->orderBy('story_id', 'DESC')->paginate(12); //story lain pada place yang sama
+        $places = Place::where('id','<>',$id)->paginate(5); //daftar semua place
         
         return view("showplace", compact('place','count_museum','count_story','museums', 'stories', 'places'));
     }
