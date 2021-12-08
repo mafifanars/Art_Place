@@ -58,6 +58,7 @@ class MuseumController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->place_id);
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'desc' => 'required|string',

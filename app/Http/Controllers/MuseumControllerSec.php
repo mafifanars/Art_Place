@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Museum;
+use App\Models\Place;
 use App\Models\CategoryMuseums;
 
 class MuseumControllerSec extends Controller
@@ -38,10 +39,12 @@ class MuseumControllerSec extends Controller
 
     public function destroy(Request $request)
     {
-        // dd($request->museum_id, $request->place_id);
+        $idPlace = $request->place_id;
+        // dd($idPlace);
+        $place = Place::findOrFail($idPlace);
         Museum::destroy($request->museum_id);
         CategoryMuseums::destroy($request->museum_id);
 
-        return redirect('/place/'. $request->place_id)->with('success', 'Museum berhasil dihapus!');
+        return redirect('/place/'. $idPlace)->with('success', 'Museum berhasil dihapus!');
     }
 }

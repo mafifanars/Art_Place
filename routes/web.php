@@ -32,8 +32,10 @@ use App\Http\Controllers\MuseumControllerSec;
 // Place
 Route::get('/', [PlaceController::class, 'index'])->middleware('auth');
 Route::resource('/place', PlaceController::class)->middleware('auth');
+// Route::get('place/{id}', [PlaceControllerSec::class, 'detail']);
 Route::post('/place/sortbytime', [PlaceController::class, 'sortTime']);
 Route::post('/place/sortbyalpha', [PlaceController::class, 'sortAlpha']);
+Route::get('/search', [PlaceController::class, 'search']);
 
 
 // Museum

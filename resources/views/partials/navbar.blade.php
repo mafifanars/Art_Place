@@ -13,10 +13,10 @@
 
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                 </form>
+                <form class="d-flex" action="{{url('/search')}}" method="GET">
+                    <input id="keyword" class="form-control me-2 mb-2 mr-2" type="search" value="{{ old('keyword') }}" placeholder="Search" name="keyword" aria-label="Search">
+                    <button class="btn btn-outline-success btn-sm" type="submit">Search</button>
+                </form>
             </li>
             <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

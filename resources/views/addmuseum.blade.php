@@ -15,7 +15,7 @@
         <form method="post" action="/museum" class="mb-5" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
-                <input type="hidden" name="place_id" id="place_id" value="{{ $place->id }}">
+                <input type="text" name="place_id" id="place_id" value="{{ $place->id }}">
                 <label for="name" class="form-label">Nama Museum</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{ old('name') }}">
                 @error('name')

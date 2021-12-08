@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Place;
+use App\Models\Museum;
+use App\Models\Story;
 use App\Models\TypePlaces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -71,6 +73,7 @@ class PlaceController extends Controller
     public function show($id)
     {
         $place = Place::findOrFail($id); //cek apakah story dan place sudah sesuai
+        // dd($place);
         $count_museum = Place::find($id)->category_museums()->count(); //cari detail musuem
         $count_story = Place::find($id)->category_stories()->count(); //story yang ada pada item tersebut
         $museums = Place::find($id)->category_museums()->orderBy('museum_id', 'DESC')->paginate(5); //jumlah story pada place yang sama
@@ -150,5 +153,26 @@ class PlaceController extends Controller
     {
         $places = Place::orderBy('name','ASC')->get();
         return view("home", compact('places'));
+    }
+
+    public function search(Request $request)
+    {
+        if($request->keyword == "")
+        {
+            $places = Place::orderBy('id', 'DESC')->get();
+            return view("home", compact('places'));
+        }
+        else
+        {
+            $places = Place::where('name', 'like', "%".$request->keyword."%")->orderBy('id', 'DESC')->get();
+
+            $keyword = $request->keyword;
+
+            $museums = Museum::where('name','like',"%".$keyword."%")->get();
+
+            $stories = Story::where('title','like',"%".$keyword."%")->get();
+
+            return view("search", compact('places', 'museums', 'stories'));
+        }
     }
 }
