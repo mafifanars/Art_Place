@@ -58,11 +58,25 @@
                   {{ $message }}
                 </div>
             @enderror
-            </div>
+        </div>
+        <div class="form-check mb-3 mr-1">
+            <input class="form-check-input" type="checkbox" value="" onclick="myFunction()" id="password">
+            <p class="py-0" style="margin-right: 160px">Show password</p>
+        </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
     </form>
         <smal class="d-block text-center mt-3">Not registered?
             <a href="/register" class="text-decoration-none" style="color: #3283cfda;">Register Now!</a>
         </small>                  
 </main>
+<script>
+  function myFunction() {
+      var x = document.getElementById("password");
+      if (x.type === "password") {
+          x.type = "text";
+      } else {
+          x.type = "password";
+      }
+  }
+</script>
 @endsection
