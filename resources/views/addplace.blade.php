@@ -12,7 +12,7 @@
     </div>
     
     <div class="col-lg-8 align-items-center">
-        <form method="post" action="/place" class="mb-5" enctype="multipart/form-data">
+        <form method="post" action="/place/create" class="mb-5" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="name" class="form-label">Nama Tempat</label>

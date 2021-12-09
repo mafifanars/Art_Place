@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    Add Story
+    Tambah Cerita
 @endsection
 
 @section('container')
@@ -12,9 +12,9 @@
     </div>
     
     <div class="col-lg-8 align-items-center">
-        <form method="post" action="/story" class="mb-5" enctype="multipart/form-data">
+        <form method="post" action="/place/story/create"" class="mb-5" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="place_id" id="place_id" value="{{ $place->id }}">
+            <input type="hidden" name="place_id" id="place_id" value="{{ $place_id }}">
             <div class="mb-3">
                 <label for="title" class="form-label">Judul Cerita</label>
                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" required autofocus value="{{ old('title') }}">

@@ -15,20 +15,18 @@
             @endif
         <div class="card mb-3">
             @if ($museum->image)
-                <img src="{{ $museum->image }}" class="img-fluid rounded" style="height: 350px" alt="{{ $museum->name }}">
+                <img src="{{ asset('storage/'.$museum->image) }}" class="img-fluid rounded" style="height: 350px" alt="{{ $museum->name }}">
             @else
                 <img src="https://source.unsplash.com/1200x400?{{ $museum->name }}" class="img-fluid rounded" style="height: 350px" alt="{{ $museum->name }}">
             @endif
         </div>
         @if (Auth::check())
             @if (Auth::user()->is_admin == "1")
-            {{-- {{url('/article/edit/'.$articles->id.'/'.$idmed)}} --}}
-                    <a href="{{url('/museum/edit/'.$museum->id.'/'.$placeid->id)}}" class="mb-3"><span class="badge rounded-pill bg-warning bi bi-pencil-square"> Edit</span></a>
-                    
+                    <a href="{{url('/museum/edit/'.$museum->id.'/'.$placeid)}}" class="mb-3"><span class="badge rounded-pill bg-warning bi bi-pencil-square"> Edit</span></a>
                     <form action="/museum/delete/" method="POST" class="ms-2 text-photo d-inline" onsubmit="return confirm('Apakah yakin ingin menghapus?')">
                             @csrf
                             <input type="hidden" name="museum_id" value="{{ $museum->id }}"> 
-                            <input type="hidden" name="place_id" value="{{ $placeid->id }}"> 
+                            <input type="hidden" name="place_id" value="{{ $placeid }}"> 
                             <button type="submit" class="badge rounded-pill bg-danger bi bi-trash border-0"> Hapus</button>
                     </form>
             @endif
@@ -43,14 +41,13 @@
               <p class="text-center">{{ $museum->desc }}.</p>
             </div>
         </div>
-
         <!-- Start Museum -->
         <div class="container mb-5">
             <p class="fs-4 mt-3">{{ $count }} Museum Lainnya</p>
             <div class="row mt-2">
                 @if (Auth::check())
                     @if (Auth::user()->is_admin == "1")
-                            <a href="/museum/create" class=""><span class="badge rounded-pill bg-primary bi bi-plus-circle"> Tambah</span></a>
+                        <a href="{{url('/place/'.$placeid.'/museum/create/')}}" class=""><span class="badge rounded-pill bg-primary bi bi-plus-circle"> Tambah</span></a>
                     @endif
                 @endif
                 @foreach ($museums as $museum)

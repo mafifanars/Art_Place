@@ -14,7 +14,7 @@
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
                 <form class="d-flex" action="{{url('/search')}}" method="GET">
-                    <input id="keyword" class="form-control me-2 mb-2 mr-2" type="search" value="{{ old('keyword') }}" placeholder="Search" name="keyword" aria-label="Search">
+                    <input id="keyword" class="form-control me-2 mb-2 mr-2" type="search" placeholder="Search" name="keyword" value="{{ old('keyword') }}" aria-label="Search">
                     <button class="btn btn-outline-success btn-sm" type="submit">Search</button>
                 </form>
             </li>

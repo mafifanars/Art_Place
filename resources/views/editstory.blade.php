@@ -1,24 +1,25 @@
 @extends('layouts.main')
 
 @section('title')
-    Tambah Museum
+    Tambah Cerita
 @endsection
 
 @section('container')
 <div class="container">
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Tambah Museum Baru</h1>
+        <h1 class="h2">Edit Cerita</h1>
     </div>
     
     <div class="col-lg-8 align-items-center">
-        <form method="post" action="/place/museum/create" class="mb-5" enctype="multipart/form-data">
+        <form method="post" action="/story/edit" class="mb-5" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="place_id" id="place_id" value="{{ $place_id }}">
+            <input type="hidden" name="story_id" id="story_id" value="{{ $editstory->id }}">
+            <input type="hidden" name="place_id" id="place_id" value="{{ $idplace }}">
             <div class="mb-3">
-                <label for="name" class="form-label">Nama Museum</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{ old('name') }}">
-                @error('name')
+                <label for="title" class="form-label">Judul Cerita</label>
+                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" required autofocus value="{{ old('title', $editstory->title) }}">
+                @error('title')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -26,7 +27,7 @@
             </div>
             <div class="mb-3">
                 <label for="desc">Deskripsi</label>
-                <textarea class="form-control @error('desc')is-invalid @enderror" name="desc" id="desc" cols="30" rows="8" placeholder="Deskripsi"></textarea>
+                <textarea class="form-control @error('desc')is-invalid @enderror" name="desc" id="desc" cols="30" rows="8" placeholder="Deskripsi">{{ old('desc', $editstory->desc) }}</textarea>
                 @error('desc')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -35,7 +36,12 @@
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">Gambar</label>
-                <img class="img-preview img-fluid mb-3 col-sm-5">
+                <input type="hidden" name="oldImage" value="{{ $editstory->image }}">
+                @if ($editstory->image)
+                    <img src="{{ asset('storage/' . $editstory->image) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
+                @else
+                    <img class="img-preview img-fluid mb-3 col-sm-5">
+                @endif
                 <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" onchange="previewImage()">
                 @error('image')
                     <div class="invalid-feedback">
@@ -43,7 +49,8 @@
                     </div>
                 @enderror
             </div>
-            <button type="submit" class="badge rounded-pill bg-primary bi bi-plus-circle border-0"> Tambah</button>
+            </div>
+            <button type="submit" class="badge rounded-pill bg-warning bi bi-plus-circle border-0 mb-5 px-2 py-2"> Edit</button>
         </form>
     </div>
 </div>

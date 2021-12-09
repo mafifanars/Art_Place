@@ -73,7 +73,6 @@ class PlaceController extends Controller
     public function show($id)
     {
         $place = Place::findOrFail($id); //cek apakah story dan place sudah sesuai
-        // dd($place);
         $count_museum = Place::find($id)->category_museums()->count(); //cari detail musuem
         $count_story = Place::find($id)->category_stories()->count(); //story yang ada pada item tersebut
         $museums = Place::find($id)->category_museums()->orderBy('museum_id', 'DESC')->paginate(5); //jumlah story pada place yang sama
@@ -91,7 +90,6 @@ class PlaceController extends Controller
      */
     public function edit(Place $place)
     {
-        // return view('editplace');
         return view('editplace', [
             'place' => $place,
             'type_places' => TypePlaces::all()
@@ -110,8 +108,7 @@ class PlaceController extends Controller
         $rules = [
             'name' => 'required|max:255',
             'desc' => 'required|string',
-            'image' => 'image|file|max:1024',
-            // 'type_places' => 'required'
+            'image' => 'image|file|max:1024'
         ];
 
         $validatedData = $request->validate($rules);

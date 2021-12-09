@@ -30,7 +30,7 @@
     <!-- Start Main -->
     <div class="container mb-4">
         <div class="row mt-4">
-            @if ($places->count() > 0)
+            @if ($places->count() > 0 || $museums->count() > 0 || $stories->count() > 0 )
                 <p class="mt-3">Menampilkan {{ $places->count() }} Tempat</p>
                 @foreach ($places as $place)
                 <div class="col-md-3 mt-3">
@@ -40,7 +40,7 @@
                         {{-- <div class="position-absolute px-3 py-4 text-white" style="background-color: rgba(0,0,0,0);">{{ $place->category_stories()->count() }} Cerita</div> --}}
                         @if ($place->image)
                             <div style="max-height: 350px; overflow: hidden;">
-                                <a href="/place/{{ $place->id }}"><img src="{{ asset('img/'.$place->image) }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
+                                <a href="/place/{{ $place->id }}"><img src="{{ asset('storage/'.$place->image) }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
                             </div>
                         @else
                             <a href="/place/{{ $place->id }}"><img src="https://source.unsplash.com/1200x400?{{ $place->name }}"  class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $place->name }}" class="img-fluid mt-3"></a>
@@ -48,13 +48,27 @@
                     </div>
                 </div>
                 @endforeach
-            @elseif ($stories->count() > 0)
+            {{-- @elseif ($museums->count() > 0) --}}
+                        <p class="mt-3">Menampilkan {{ $museums->count() }} Museum</p>
+                        @foreach($museums as $museum)
+                        <div class="col-md-3 mt-3">
+                            <div class="image" >
+                                <div class="position-absolute px-2 py-1 text-white" style="background-color: rgba(0,0,0,0);">{{ $museum->name }}</div>
+                                @if ($museum->image)
+                                    <a href="{{ url('/museum/'.$museum->id.'/'.$museum->category_museums()->first()->place_id) }}"><img src="{{ $museum->image }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $museum->name }}"></a>
+                                @else
+                                    <a href="{{ url('/museum/'.$museum->id.'/'.$museum->category_museums()->first()->place_id) }}"><img src="https://source.unsplash.com/1200x400?{{ $museum->name }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $museum->name }}"></a>
+                                @endif
+                            </div>
+                        </div>
+                        @endforeach
+            {{-- @elseif ($stories->count() > 0) --}}
                 <p class="mt-3">Menampilkan {{ $stories->count() }} Cerita</p>
                 @foreach($stories as $story)
                     <div class="col-md-3 mt-3">
                         <div class="image" >
                             @if ($story->image)
-                                <a href="{{ url('/story/'.$story->id.'/'.$story->place_id) }}"><img src="{{ $story->image }}" class="rounded" style="width: 180px; height: 200px;" alt="{{ $story->story->title }}"></a>
+                                <a href="{{ url('/story/'.$story->id.'/'.$story->category_stories()->first()->place_id) }}"><img src="{{ asset('storage/'.$story->image) }}" class="rounded" style="width: 180px; height: 200px;" alt="{{ $story->title }}"></a>
                             @else
                                 <a href="{{ url('/story/'.$story->id.'/'.$story->place_id) }}"><img src="https://source.unsplash.com/1200x400?{{ $story->title }}" class="rounded" style="width: 180px; height: 200px;" alt="{{ $story->title }}"></a>
                             @endif

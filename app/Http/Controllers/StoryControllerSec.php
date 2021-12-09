@@ -13,25 +13,70 @@ use Illuminate\Support\Facades\DB;
 
 class StoryControllerSec extends Controller
 {
-    public function detail($id, $idstory)
+    public function create($id)
     {
+        $addstory = Story::where('id', $id)->first();
 
-        $placeId = $id;
+        return view('addstory', [
+            'category_story' => CategoryStories::all(),
+            'place_id' => $id
+        ]);
+    }
 
-        CategoryStories::where('place_id', $id)->where('story_id', $idstory)->firstOrFail(); //cek apakah story dan place sudah sesuai
-        $story = Story::findOrFail($id); //cari detail story
-        $count = Place::find($idstory)->category_stories()->where('story_id', '<>', $id)->count(); //jumlah story pada place yang sama
-        $stories = Place::find($idstory)->category_stories()->where('story_id', '<>', $id)->offset(rand(0, $count-6))->limit(6)->get(); //musuem lain pada place yang sama
-        $allplace = Place::where('id','<>',$id)->paginate(5); //daftar semua place
+    public function add(Request $request)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'desc' => 'required|string',
+            'image' => 'image|file|max:1024'
+        ]);
+        
+        if($request->file('image')){
+            $validatedData['image'] = $request->file('image')->store('img');
+        }
 
-        return view('showstory', compact('story', 'count', 'stories', 'allplace', 'placeId'));
+        Story::create($validatedData);
+
+        $idStory = Story::orderBy('id', 'DESC')->first();
+
+        CategoryStories::create([
+            'story_id' => $idStory->id,
+            'place_id' => $request->place_id
+        ]);
+
+        return redirect('/place/'. $request->place_id)->with('success','Cerita berhasil ditambah');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Story  $story
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Story $story)
+    {
+        return view('showstory');
+    }
+
+    public function detail($idstory, $idplace)
+    {
+        // dd($idstory, $idplace);
+        $place_id = $idplace;
+        $story_id = $idstory;
+
+        CategoryStories::where('place_id', $place_id)->where('story_id', $story_id)->firstOrFail(); //cek apakah story dan place sudah sesuai
+        $story = Story::findOrFail($story_id); //cari detail story
+        $count = Place::find($place_id)->category_stories()->where('story_id', '<>', $story_id)->count(); //jumlah story pada place yang sama
+        $stories = Place::find($place_id)->category_stories()->where('story_id', '<>', $story_id)->offset(rand(0, $count-6))->limit(6)->get(); //cerita lain pada place yang sama
+        $allplace = Place::where('id','<>',$place_id)->paginate(5); //daftar semua place
+
+        return view('showstory', compact('story', 'count', 'stories', 'allplace', 'place_id', 'story_id'));
     }
 
     public function edit(Request $request, $id, $idplace)
     {
-        // dd($id, $idplace);
         $editstory = Story::where('id', $id)->first();
-        // dd($editstory);
+
         return view('editstory', [
             'editstory' => $editstory,
             'idplace' => (int)$idplace
@@ -41,13 +86,10 @@ class StoryControllerSec extends Controller
     public function update(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
+            'title' => 'required|max:255',
             'desc' => 'required|string',
             'image' => 'image|file|max:1024'
         ]);
-
-        // dd($request->place_id);
-
 
         Story::where('id', $request->story_id)
             ->update($validatedData);

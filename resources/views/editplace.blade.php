@@ -1,4 +1,3 @@
-
 @extends('layouts.main')
 
 @section('title')
@@ -13,10 +12,10 @@
     </div>
     
     <div class="col-lg-8 align-items-center">
-        <form method="post" action="/place/{{ $place->id }}" class="mb-5" enctype="multipart/form-data">
-            @method('put')
+        <form method="post" action="/place/edit" class="mb-5" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
+                <input type="hidden" name="place_id" id="place_id" value="{{ $place->id }}">
                 <label for="name" class="form-label">Nama Tempat</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{ old('name', $place->name) }}">
                 @error('name')
@@ -27,7 +26,7 @@
             </div>
             <div class="mb-3">
                 <label for="desc">Deskripsi</label>
-                <textarea class="form-control @error('desc')is-invalid @enderror" name="desc" id="desc" cols="30" rows="8" placeholder="Deskripsi" value="{{ old('desc') }}">{{ old('desc', $place->desc) }}</textarea>
+                <textarea class="form-control @error('desc')is-invalid @enderror" name="desc" id="desc" cols="30" rows="8" placeholder="Deskripsi">{{ old('desc', $place->desc) }}</textarea>
                 @error('desc')
                 <div class="invalid-feedback">
                     {{ $message }}
