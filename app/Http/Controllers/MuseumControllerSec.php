@@ -22,15 +22,6 @@ class MuseumControllerSec extends Controller
 
         return view('showmuseum', compact('museum', 'places', 'count', 'museums', 'allplace', 'placeid'));
     }
-
-    // public function create()
-    // {
-    //     $addmuseum = Museum::where('id', $id)->first();
-    //     return view('addmuseum', [
-    //         'addmuseum' => $addmuseum,
-    //         'idplace' => $idplace
-    //     ]);
-    // }
     
     public function create($id)
     {
@@ -95,7 +86,6 @@ class MuseumControllerSec extends Controller
     public function destroy(Request $request)
     {
         $idPlace = $request->place_id;
-        // dd($idPlace);
         $place = Place::findOrFail($idPlace);
         Museum::destroy($request->museum_id);
         CategoryMuseums::destroy($request->museum_id);

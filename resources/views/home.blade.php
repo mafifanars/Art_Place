@@ -49,7 +49,7 @@
                     {{-- <div class="position-absolute px-3 py-4 text-white" style="background-color: rgba(0,0,0,0);">{{ $place->category_stories()->count() }} Cerita</div> --}}
                     @if ($place->image)
                         <div style="max-height: 350px; overflow: hidden;">
-                            <a href="/place/{{ $place->id }}"><img src="{{ asset('storage/'.$place->image) }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="..."></a>
+                            <a href="/place/{{ $place->id }}"><img src="{{ asset('storage/'.$place->image) }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $place->name }}"></a>
                         </div>
                     @else
                         <a href="/place/{{ $place->id }}"><img src="https://source.unsplash.com/1200x400?{{ $place->name }}"  class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $place->name }}" class="img-fluid mt-3"></a>

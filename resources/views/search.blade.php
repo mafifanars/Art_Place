@@ -55,7 +55,7 @@
                             <div class="image" >
                                 <div class="position-absolute px-2 py-1 text-white" style="background-color: rgba(0,0,0,0);">{{ $museum->name }}</div>
                                 @if ($museum->image)
-                                    <a href="{{ url('/museum/'.$museum->id.'/'.$museum->category_museums()->first()->place_id) }}"><img src="{{ $museum->image }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $museum->name }}"></a>
+                                    <a href="{{ url('/museum/'.$museum->id.'/'.$museum->category_museums()->first()->place_id) }}"><img src="{{ asset('storage/'.$museum->image) }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $museum->name }}"></a>
                                 @else
                                     <a href="{{ url('/museum/'.$museum->id.'/'.$museum->category_museums()->first()->place_id) }}"><img src="https://source.unsplash.com/1200x400?{{ $museum->name }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $museum->name }}"></a>
                                 @endif
