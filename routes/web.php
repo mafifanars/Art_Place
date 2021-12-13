@@ -10,6 +10,7 @@ use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\MuseumController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PlaceControllerSec;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\StoryControllerSec;
@@ -32,6 +33,7 @@ use App\Http\Controllers\MuseumControllerSec;
 
 // Place
 Route::get('/', [PlaceController::class, 'index'])->middleware('auth');
+Route::get('/home', [PlaceController::class, 'index'])->middleware('auth');
 Route::get('/place', [PlaceControllerSec::class, 'index']);
 Route::get('/place/create', [PlaceControllerSec::class, 'create'])->middleware('admin');
 Route::post('/place/create', [PlaceControllerSec::class, 'add'])->middleware('admin');
@@ -62,12 +64,30 @@ Route::post('/story/edit', [StoryControllerSec::class, 'update'])->middleware('a
 Route::post('/story/delete', [StoryControllerSec::class, 'destroy'])->middleware('admin');
 
 
+// Account
+Route::get('/account', [AccountController::class, 'index'])->middleware('auth');
+Route::post('/account', [AccountController::class, 'update'])->middleware('auth');
+
+
+// Favourite
+Route::post('/account/favourite/place/{id}', [AccountController::class, 'favplace']);
+Route::post('/account/favourite/place/delete/{id}', [AccountController::class, 'delfavplace']);
+Route::post('/account/favourite/museum/{id}/{idplace}', [AccountController::class, 'favmuseum']);
+Route::post('/account/favourite/museum/delete/{id}/{idplace}', [AccountController::class, 'delfavmuseum']);
+Route::post('/account/favourite/story/{id}/{idplace}', [AccountController::class, 'favstory']);
+Route::post('/account/favourite/story/delete/{id}/{idplace}', [AccountController::class, 'delfavstory']);
+Route::get('/account/favourite', [AccountController::class, 'showfav']);
+
+
+
 // Login
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
 
+
 // Logout
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
+
 
 // Register
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');

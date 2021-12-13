@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Story;
+use App\Models\User;
 use App\Models\CategoryStories;
 use App\Models\Place;
 use App\Models\CategoryMuseums;
@@ -60,7 +61,7 @@ class StoryControllerSec extends Controller
 
     public function detail($idstory, $idplace)
     {
-        // dd($idstory, $idplace);
+        $user_id = auth()->user()->id;    
         $place_id = $idplace;
         $story_id = $idstory;
 
@@ -69,8 +70,17 @@ class StoryControllerSec extends Controller
         $count = Place::find($place_id)->category_stories()->where('story_id', '<>', $story_id)->count(); //jumlah story pada place yang sama
         $stories = Place::find($place_id)->category_stories()->where('story_id', '<>', $story_id)->offset(rand(0, $count-6))->limit(6)->get(); //cerita lain pada place yang sama
         $allplace = Place::where('id','<>',$place_id)->paginate(5); //daftar semua place
+        
+        if(User::find($user_id))
+        {
+            $liked = User::find($user_id)->favourites()->where('fav_id',3)->where('story_id', $story_id)->count();
+        }
+        else
+        {
+            $liked = -1;
+        }
 
-        return view('showstory', compact('story', 'count', 'stories', 'allplace', 'place_id', 'story_id'));
+        return view('showstory', compact('story', 'count', 'stories', 'allplace', 'place_id', 'story_id', 'user_id', 'liked'));
     }
 
     public function edit(Request $request, $id, $idplace)
@@ -91,6 +101,13 @@ class StoryControllerSec extends Controller
             'image' => 'image|file|max:1024'
         ]);
 
+        if($request->file('image')){
+            if($request->oldImage){
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['image'] = $request->file('image')->store('img');
+        }
+
         Story::where('id', $request->story_id)
             ->update($validatedData);
 
@@ -99,7 +116,6 @@ class StoryControllerSec extends Controller
 
     public function destroy(Request $request)
     {
-        // dd($request->museum_id, $request->place_id);
         Story::destroy($request->story_id);
         CategoryStories::destroy($request->story_id);
 

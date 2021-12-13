@@ -16,4 +16,9 @@ class Story extends Model
         return $this->hasMany(CategoryStories::class);
     }
 
+    public function favourites()
+    {
+        return $this->hasMany(Favourite::class);
+    }
+
 }

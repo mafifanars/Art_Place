@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Museum;
 use App\Models\Place;
+use App\Models\User;
 use App\Models\CategoryMuseums;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class MuseumControllerSec extends Controller
 {
 
     public function detail($id, $idplace)
     {
+        $user_id = auth()->user()->id;  
+
         CategoryMuseums::where('museum_id', $id)->where('place_id', $idplace)->firstOrFail(); //cek apakah museum dan place sudah sesuai
         $museum = Museum::findOrFail($id); //cari detail musuem
         $places = CategoryMuseums::where('museum_id', $id)->get(); //place yang ada pada item tersebut
@@ -20,7 +25,16 @@ class MuseumControllerSec extends Controller
         $allplace = Place::all(); //daftar semua place
         $placeid = $idplace;
 
-        return view('showmuseum', compact('museum', 'places', 'count', 'museums', 'allplace', 'placeid'));
+        if(User::find($user_id))
+        {
+            $liked = User::find($user_id)->favourites()->where('fav_id',2)->where('museum_id', $id)->count();
+        }
+        else
+        {
+            $liked = -1;
+        }
+
+        return view('showmuseum', compact('museum', 'places', 'count', 'museums', 'allplace', 'placeid', 'user_id', 'liked'));
     }
     
     public function create($id)
@@ -76,6 +90,13 @@ class MuseumControllerSec extends Controller
             'desc' => 'required|string',
             'image' => 'image|file|max:1024'
         ]);
+
+        if($request->file('image')){
+            if($request->oldImage){
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['image'] = $request->file('image')->store('img');
+        }
 
         Museum::where('id', $request->museum_id)
             ->update($validatedData);

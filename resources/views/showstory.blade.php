@@ -32,6 +32,21 @@
                     </form>
             @endif
         @endif
+
+        @if ($liked ==  0)
+                <form action="{{ url('/account/favourite/story/'.$story->id . '/'. $place_id) }}" method="POST" class="ms-2 text-photo d-inline">
+                @csrf
+                    <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                    <button style="background-color: #FF69B4" type="submit" class="badge rounded-pill bi bi-heart border-0"> Favorit</button>
+                </form>
+        @else
+            <form action="{{ url('/account/favourite/story/delete/'.$story->id . '/' . $place_id) }}" method="POST" class="ms-2 text-photo d-inline">
+                    @csrf
+                    <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                    <button type="submit" class="badge rounded-pill text-dark bg-transparant bi bi-heart border-0"> Hapus Favorit</button>
+            </form>
+        @endif
+
         <div>
             <p class="text-center fs-3">{{ $story->title }}</p>
         </div>

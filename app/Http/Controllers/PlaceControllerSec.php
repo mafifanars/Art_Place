@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Place;
+use App\Models\User;
 use App\Models\Museum;
 use App\Models\Story;
 use App\Models\TypePlaces;
@@ -21,7 +22,9 @@ class PlaceControllerSec extends Controller
     }
 
     public function detail($id)
-    {
+    {   
+        $user_id = auth()->user()->id;
+
         $place = Place::findOrFail($id); 
         $count_museum = Place::find($id)->category_museums()->count(); //cari detail musuem
         $count_story = Place::find($id)->category_stories()->count(); //story yang ada pada item tersebut
@@ -29,7 +32,16 @@ class PlaceControllerSec extends Controller
         $stories = Place::find($id)->category_stories()->orderBy('story_id', 'DESC')->paginate(12); //story lain pada place yang sama
         $places = Place::where('id','<>',$id)->paginate(5); //daftar semua place
         
-        return view("showplace", compact('place','count_museum','count_story','museums', 'stories', 'places'));
+        if(User::find($user_id))
+        {
+            $liked = User::find($user_id)->favourites()->where('fav_id',1)->where('place_id', $id)->count();
+        }
+        else
+        {
+            $liked = -1;
+        }
+
+        return view("showplace", compact('place','count_museum','count_story','museums', 'stories', 'places', 'liked', 'user_id'));
     }
 
     public function create()

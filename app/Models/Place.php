@@ -26,4 +26,9 @@ class Place extends Model
         return $this->belongsTo(TypePlaces::class);
     }
 
+    public function favourites()
+    {
+        return $this->hasMany(Favourite::class);
+    }
+
 }

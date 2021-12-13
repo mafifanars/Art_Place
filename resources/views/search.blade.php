@@ -70,7 +70,7 @@
                             @if ($story->image)
                                 <a href="{{ url('/story/'.$story->id.'/'.$story->category_stories()->first()->place_id) }}"><img src="{{ asset('storage/'.$story->image) }}" class="rounded" style="width: 180px; height: 200px;" alt="{{ $story->title }}"></a>
                             @else
-                                <a href="{{ url('/story/'.$story->id.'/'.$story->place_id) }}"><img src="https://source.unsplash.com/1200x400?{{ $story->title }}" class="rounded" style="width: 180px; height: 200px;" alt="{{ $story->title }}"></a>
+                                <a href="{{ url('/story/'.$story->id.'/'.$story->category_stories()->first()->place_id) }}"><img src="https://source.unsplash.com/1200x400?{{ $story->title }}" class="rounded" style="width: 180px; height: 200px;" alt="{{ $story->title }}"></a>
                             @endif
                             <p class="px-0 mt-1 col-md-8" style="font-size: 12px">{{ $story->title }}</p>
                         </div>

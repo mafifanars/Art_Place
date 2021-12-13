@@ -28,8 +28,22 @@
                                 <input type="hidden" name="place_id" id="place_id" value="{{ $place->id }}">
                                 <button type="submit" class="badge rounded-pill bg-danger bi bi-trash border-0"> Hapus</button>
                         </form>
+
                 @endif
             @endif
+                        @if ($liked == 0)
+                            <form action="{{ url('/account/favourite/place/'.$place->id )}}" method="POST" class="ms-2 text-photo d-inline">
+                                @csrf
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                                    <button style="background-color: #FF69B4" type="submit" class="badge rounded-pill bi bi-heart border-0"> Favorit</button>
+                                </form>
+                        @else
+                            <form action="{{ url('/account/favourite/place/delete/'.$place->id )}}" method="POST" class="ms-2 text-photo d-inline">
+                            @csrf
+                                    <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                                    <button type="submit" class="badge rounded-pill text-dark bg-transparant bi bi-heart border-0"> Hapus Favorit</button>
+                            </form>
+                        @endif
         <div>
             <p class="text-center fs-3">{{ $place->name }}</p>
         </div>
@@ -53,7 +67,7 @@
                     @foreach($museums as $museum)
                     <div class="col-md-3 mt-3">
                         <div class="image" >
-                            <div class="position-absolute px-2 py-1 text-white" style="background-color: rgba(0,0,0,0);">{{ $museum->museum->name }}</div>
+                            <div class="position-absolute px-2 py-1 text-white col-md-6" style="background-color: rgba(0,0,0,0);">{{ $museum->museum->name }}</div>
                             @if ($museum->museum->image)
                                 <a href="{{ url('/museum/'.$museum->museum_id.'/'.$museum->place_id) }}"><img src="{{ asset('storage/'.$museum->museum->image) }}" class="rounded float-start" style="width: 250px; height: 150px;" alt="{{ $museum->museum->name }}"></a>
                             @else
